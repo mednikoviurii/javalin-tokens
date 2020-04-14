@@ -11,6 +11,7 @@ import com.nimbusds.jose.jwk.ECKey;
 import com.nimbusds.jose.jwk.gen.ECKeyGenerator;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import org.apache.commons.lang3.RandomStringUtils;
 
 public class TokenManagerImpl implements TokenManager {
 
@@ -19,7 +20,7 @@ public class TokenManagerImpl implements TokenManager {
 
     public TokenManagerImpl() throws Exception{
 
-        keyId = "";
+        keyId = RandomStringUtils.randomAlphanumeric(50);
         key = new ECKeyGenerator(Curve.P_256).keyID(keyId).generate();
 
     }
@@ -29,7 +30,7 @@ public class TokenManagerImpl implements TokenManager {
         try {
             JWSSigner signer = new ECDSASigner(key);
             JWTClaimsSet claimsSet = new JWTClaimsSet.Builder().subject(userId).build();
-            SignedJWT signedJWT = new SignedJWT(new JWSHeader.Builder(JWSAlgorithm.ES256).keyID(key.getKeyID()).build(), claimsSet);
+            SignedJWT signedJWT = new SignedJWT(new JWSHeader.Builder(JWSAlgorithm.ES256).keyID(keyId).build(), claimsSet);
             signedJWT.sign(signer);
             String token = signedJWT.serialize();
             return token;
