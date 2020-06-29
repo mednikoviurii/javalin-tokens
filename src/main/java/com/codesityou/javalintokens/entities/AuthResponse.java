@@ -4,16 +4,14 @@ public class AuthResponse {
 
     private String userId;
     private String token;
-    private boolean success;
 
     public AuthResponse(){
 
     }
 
-    public AuthResponse(String userId, String token, boolean success) {
+    public AuthResponse(String userId, String token) {
         this.userId = userId;
         this.token = token;
-        this.success = success;
     }
 
     public String getUserId() {
@@ -30,18 +28,5 @@ public class AuthResponse {
 
     public void setToken(String token) {
         this.token = token;
-    }
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-    
-    
-    public static AuthResponse bad() {
-        return new AuthResponse(null, null, false);
     }
 }

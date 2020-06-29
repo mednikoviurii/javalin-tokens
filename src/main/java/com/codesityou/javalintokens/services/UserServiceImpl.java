@@ -7,6 +7,7 @@ import com.codesityou.javalintokens.entities.AuthResponse;
 import com.codesityou.javalintokens.entities.User;
 import com.codesityou.javalintokens.managers.TokenManager;
 import com.codesityou.javalintokens.repositories.UserRepository;
+import io.javalin.http.ForbiddenResponse;
 
 public class UserServiceImpl implements UserService {
 
@@ -25,7 +26,7 @@ public class UserServiceImpl implements UserService {
         User user = repository.signup(email, password);
         String userId = user.getUserId();
         String token = manager.issueToken(userId);
-        AuthResponse response = new AuthResponse(userId, token, true);
+        AuthResponse response = new AuthResponse(userId, token);
         return response;
     }
 
@@ -40,21 +41,19 @@ public class UserServiceImpl implements UserService {
             if (password.equalsIgnoreCase(passwordInDatabase)) {
                 String userId = user.getUserId();
                 String token = manager.issueToken(userId);
-                AuthResponse response = new AuthResponse(userId, token, true);
+                AuthResponse response = new AuthResponse(userId, token);
                 return response;
             } else {
-                AuthResponse response = AuthResponse.bad();
-                return response;
+                throw new ForbiddenResponse();
             }
         } else {
-            AuthResponse response = AuthResponse.bad();
-            return response;
+            throw new ForbiddenResponse();
         }
     }
 
     @Override
-    public boolean authorize(String token) {
-        boolean result = manager.authorize(token);
+    public boolean authorize(String token, String userId) {
+        boolean result = manager.authorize(token, userId);
         return result;
     }
 

@@ -29,10 +29,11 @@ public class UserController {
 
     public void authorize (Context context){
         String token = context.header("Authorization");
+        String userId = context.header("X-User-ID");
         if (token == null){
             throw new ForbiddenResponse();
         }
-        boolean result = service.authorize(token);
+        boolean result = service.authorize(token, userId);
         if (!result){
             throw new ForbiddenResponse();
         }

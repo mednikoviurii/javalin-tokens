@@ -2,12 +2,9 @@ package com.codesityou.javalintokens;
 
 import com.codesityou.javalintokens.controllers.TaskController;
 import com.codesityou.javalintokens.controllers.UserController;
+import com.codesityou.javalintokens.managers.JjwtTokenManagerImpl;
 import com.codesityou.javalintokens.managers.TokenManager;
-import com.codesityou.javalintokens.managers.TokenManagerImpl;
-import com.codesityou.javalintokens.repositories.TaskRepository;
-import com.codesityou.javalintokens.repositories.TaskRepositoryImpl;
-import com.codesityou.javalintokens.repositories.UserRepository;
-import com.codesityou.javalintokens.repositories.UserRepositoryImpl;
+import com.codesityou.javalintokens.repositories.*;
 import com.codesityou.javalintokens.services.TaskService;
 import com.codesityou.javalintokens.services.TaskServiceImpl;
 import com.codesityou.javalintokens.services.UserService;
@@ -20,17 +17,17 @@ import io.javalin.Javalin;
 public class App {
     public static void main( String[] args ) throws Exception{
 
-        PGSimpleDataSource dataSource = new PGSimpleDataSource();
-        dataSource.setURL("jdbc:postgresql://localhost:5432/exampledb");
-        dataSource.setUser("postgres");
-        dataSource.setPassword("secret");
+//        PGSimpleDataSource dataSource = new PGSimpleDataSource();
+//        dataSource.setURL("jdbc:postgresql://localhost:5432/exampledb");
+//        dataSource.setUser("postgres");
+//        dataSource.setPassword("secret");
         
-        TaskRepository taskRepository = new TaskRepositoryImpl(dataSource);
+        TaskRepository taskRepository = new TaskRepositoryImpl();
         TaskService taskService = new TaskServiceImpl(taskRepository);
         TaskController taskController = new TaskController(taskService);
 
-        TokenManager manager = new TokenManagerImpl();
-        UserRepository userRepository = new UserRepositoryImpl(dataSource);
+        TokenManager manager = new JjwtTokenManagerImpl();
+        UserRepository userRepository = new UserRepositoryImpl();
         UserService userService = new UserServiceImpl(userRepository, manager);
         UserController userController = new UserController(userService);
 
