@@ -10,5 +10,5 @@ public interface UserService {
 
     AuthResponse login (AuthRequest request);
 
-    boolean authorize (String token);
+    boolean authorize (String token, String userId);
 }

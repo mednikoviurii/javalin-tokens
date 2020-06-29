@@ -38,7 +38,6 @@ public class UserServiceImplTest {
         EasyMock.replay(repository, manager);
         AuthResponse result = service.signup(request);
         assertThat(result).isNotNull();
-        assertThat(result.isSuccess()).isTrue();
         assertThat(result.getToken()).isEqualTo(token);
     }
 
@@ -52,7 +51,6 @@ public class UserServiceImplTest {
         EasyMock.replay(repository, manager);
         AuthResponse result = service.login(request);
         assertThat(result).isNotNull();
-        assertThat(result.isSuccess()).isTrue();
         assertThat(result.getToken()).isEqualTo(token);
     }
 
@@ -63,24 +61,25 @@ public class UserServiceImplTest {
         EasyMock.replay(repository);
         AuthResponse result = service.login(request);
         assertThat(result).isNotNull();
-        assertThat(result.isSuccess()).isFalse();
     }
 
     @Test
     public void authorizeTest(){
         String token = "token";
-        EasyMock.expect(manager.authorize(token)).andReturn(true);
+        String userId = "userId";
+        EasyMock.expect(manager.authorize(token, userId)).andReturn(true);
         EasyMock.replay(manager);
-        boolean result = service.authorize(token);
+        boolean result = service.authorize(token, userId);
         assertThat(result).isTrue();
     }
 
     @Test
     public void authorizeDeniedTest(){
         String token = "token";
-        EasyMock.expect(manager.authorize(token)).andReturn(false);
+        String userId = "userId";
+        EasyMock.expect(manager.authorize(token, userId)).andReturn(false);
         EasyMock.replay(manager);
-        boolean result = service.authorize(token);
+        boolean result = service.authorize(token, userId);
         assertThat(result).isFalse();
     }
 }
