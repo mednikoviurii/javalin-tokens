@@ -1,8 +1,14 @@
 package com.codesityou.javalintokens.entities;
 
-public class AuthRequest {
+import me.geso.tinyvalidator.constraints.Email;
+import me.geso.tinyvalidator.constraints.Size;
 
+public class AuthRequest {
+    
+    @Email
     private String email;
+
+    @Size(min = 8)
     private String password;
 
     public AuthRequest(){
