@@ -10,17 +10,10 @@ import com.codesityou.javalintokens.services.TaskServiceImpl;
 import com.codesityou.javalintokens.services.UserService;
 import com.codesityou.javalintokens.services.UserServiceImpl;
 
-import org.postgresql.ds.PGSimpleDataSource;
-
 import io.javalin.Javalin;
 
 public class App {
     public static void main( String[] args ) throws Exception{
-
-//        PGSimpleDataSource dataSource = new PGSimpleDataSource();
-//        dataSource.setURL("jdbc:postgresql://localhost:5432/exampledb");
-//        dataSource.setUser("postgres");
-//        dataSource.setPassword("secret");
         
         TaskRepository taskRepository = new TaskRepositoryImpl();
         TaskService taskService = new TaskServiceImpl(taskRepository);
